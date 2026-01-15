@@ -2,27 +2,27 @@ def gather_info():
     while True:
         try:
             atk = int(input("Enter attacker's atk stat: "))
-            if atk <= 0:
+            if atk < 0:
                 raise ValueError
             break
         except ValueError:
-            print("Impossible value. Must be an integer greater than 0")
+            print("Impossible value. Must be at least 0")
     while True:
         try:
             defense = int(input("Enter defender's def stat: "))
-            if defense <= 0:
+            if defense < 0:
                 raise ValueError
             break
         except ValueError:
-            print("Impossible value. Must be an integer greater than 0")
+            print("Impossible value. Must be at least 0")
     while True:
         try:
-            dmg_reduction = int(input("Enter defender's damage reduction: "))
-            if dmg_reduction < 0 or dmg_reduction > 100 :
+            dmg_reduction = float(input("Enter defender's damage reduction e.g. (0.5 = 50%): "))
+            if dmg_reduction < 0 or dmg_reduction > 1 :
                 raise ValueError
             break
         except ValueError:
-            print("Impossible value. Must be an integer greater than or equal to 0 and less than or equal to 100")
+            print("Impossible value. Must be between 0 and 1.")
     while True:
         try:
             guarding = int(input("Enter 0 if defender has passive guard or 1 if not: "))
@@ -46,13 +46,37 @@ def gather_info():
             print("Impossible value. Must be at least 1.")
     while True:
         try:
-            atk_effects_multiplier = float(input("Enter attacker's current effects on their atk stat e.g. (2.0 for massively raises atk): "))
-            if atk_effects_multiplier < 0 :
+            super_atk_effect_multiplier = float(input("Enter attacker's current super attack effects on their atk stat e.g. (2.0 for massively raises atk): "))
+            if super_atk_effect_multiplier < 0 :
                 raise ValueError
             break
         except ValueError:
             print("Impossible value. Must be at least 0.")
-    return atk, defense, dmg_reduction, typing_multiplier, guarding, sa_multiplier, atk_effects_multiplier
+    while True:
+        try:
+            atk_down_from_item = float(input("Enter the attack percentage lowered by items e.g. (0.3 = 30%): "))
+            if atk_down_from_item < 0 or atk_down_from_item > 1:
+                raise ValueError
+            break
+        except ValueError:
+            print("Impossible value. Must be between 0 and 1.")
+    while True:
+        try:
+            atk_down_from_sa = float(input("Enter the attack percentage lowered by enemy super attack effects e.g. (0.3 = 30%): "))
+            if atk_down_from_sa < 0 or atk_down_from_sa > 1:
+                raise ValueError
+            break
+        except ValueError:
+            print("Impossible value. Must be between 0 and 1.")
+    while True:
+        try:
+            atk_down_from_passive = float(input("Enter the attack percentage lowered by passive effects e.g. (0.3 = 30%): "))
+            if atk_down_from_passive < 0 or atk_down_from_passive > 1:
+                raise ValueError
+            break
+        except ValueError:
+            print("Impossible value. Must be between 0 and 1.")
+    return atk, defense, dmg_reduction, typing_multiplier, guarding, sa_multiplier, super_atk_effect_multiplier, atk_down_from_item, atk_down_from_sa, atk_down_from_passive
 
 def typing_and_alignment(guarding):
     if guarding == True:
